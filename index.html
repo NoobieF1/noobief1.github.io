@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>six seven</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700;800&family=Space+Grotesk:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0d0d0d;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-racing {
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 50;
+            background: linear-gradient(to bottom, rgba(13,13,13,0.9), transparent);
+        }
+
+        .logo {
+            color: #0000fe;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0000fe;
+        }
+
+        /* HERO SECTION */
+        .home {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .home h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .neon-text {
+            color: #0000fe;
+            text-shadow: 0 0 20px rgba(0, 0, 254, 0.5);
+        }
+
+        .home p {
+            margin-top: 1.5rem;
+            color: #888;
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .bg-big-text {
+            position: absolute;
+            font-size: 25vw;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+
+        /* GRID / CARDS SECTION */
+        .work {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            border-left: 4px solid #0000fe;
+            padding-left: 1rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #141414;
+            border: 1px solid #222;
+            padding: 2.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 280px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #0000fe;
+        }
+
+        .card-num {
+            color: #0000fe;
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* STATS SECTION */
+        .stats {
+            padding: 6rem 2rem;
+            background: #080808;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+            padding-bottom: 2rem;
+        }
+
+        .stat-num {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 800;
+            color: #0000fe;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: #444;
+            font-size: 0.8rem;
+            border-top: 1px solid #111;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo font-racing">36 // 67</div>
+        <div class="nav-links">
+            <a href="#home">HOME</a>
+            <a href="#work">WORK</a>
+            <a href="#stats">STATS</a>
+        </div>
+    </nav>
+
+    <section id="home" class="home">
+        <div class="bg-big-text font-racing">LN04</div>
+        <h1 class="font-racing">THAI <br> <span class="neon-text">QUOC BAO</span></h1>
+        <p>a kid with big dreams</p>
+    </section>
+
+    <section id="work" class="work">
+        <h2 class="section-title font-racing">SELECTED WORKS</h2>
+        <div class="grid-container">
+            <div class="card">
+                <span class="card-num">// 01</span>
+                <div>
+                    <h3 class="font-racing">COMING SOON</h3>
+                    <p>Projects will be added soon! Stay tuned!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-num font-racing">0</span>
+                <span class="stat-label font-racing">silly apps</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num font-racing" style="color: #fff;">16</span>
+                <span class="stat-label font-racing">age</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Thai Quoc Bao — All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>
