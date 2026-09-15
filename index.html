@@ -18,10 +18,149 @@
             background-color: #0d0d0d;
             color: #ffffff;
             overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* 0. PRELOADER SCREEN */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #080808;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        #loader.loaded {
+            transform: translateY(-100%);
+        }
+
+        .loader-content {
+            text-align: center;
+            width: 300px;
+        }
+
+        .loader-title {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+        }
+
+        .loader-counter {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #0000fe;
+            text-shadow: 0 0 20px rgba(0, 0, 254, 0.6);
+            margin-bottom: 1rem;
+        }
+
+        .loader-bar-bg {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-bar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: #0000fe;
+            box-shadow: 0 0 10px #0000fe;
+            transition: width 0.1s ease-out;
+        }
+
+        .loader-sub {
+            font-size: 0.7rem;
+            color: #555;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+            text-transform: uppercase;
         }
 
         .font-racing {
             font-family: 'Syncopate', sans-serif;
+        }
+
+        /* BACKGROUND EFFECTS */
+        .cyber-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 0, 254, 0.08) 0%, transparent 80%);
+            z-index: -3;
+        }
+
+        .cyber-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 254, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 254, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        #canvas-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* CUSTOM CURSOR */
+        #cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            background-color: #0000fe;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #0000fe;
+        }
+
+        #cursor-ring {
+            position: fixed;
+            top: 0; left: 0;
+            width: 40px; height: 40px;
+            border: 1.5px solid rgba(0, 0, 254, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: border-color 0.3s, background-color 0.3s, width 0.2s, height 0.2s;
+        }
+
+        #cursor-ring.hovered {
+            width: 60px;
+            height: 60px;
+            border-color: #ffffff;
+            background-color: rgba(0, 0, 254, 0.15);
         }
 
         /* NAVBAR */
@@ -36,6 +175,7 @@
             align-items: center;
             z-index: 50;
             background: linear-gradient(to bottom, rgba(13,13,13,0.9), transparent);
+            backdrop-filter: blur(5px);
         }
 
         .logo {
@@ -43,6 +183,7 @@
             font-weight: 800;
             letter-spacing: 2px;
             font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(0, 0, 254, 0.4);
         }
 
         .nav-links a {
@@ -57,6 +198,7 @@
 
         .nav-links a:hover {
             color: #0000fe;
+            text-shadow: 0 0 8px rgba(0, 0, 254, 0.8);
         }
 
         /* HERO SECTION */
@@ -76,11 +218,26 @@
             line-height: 0.9;
             text-transform: uppercase;
             font-weight: 800;
+            position: relative;
+            z-index: 10;
         }
 
         .neon-text {
             color: #0000fe;
-            text-shadow: 0 0 20px rgba(0, 0, 254, 0.5);
+            text-shadow: 0 0 25px rgba(0, 0, 254, 0.8);
+        }
+
+        .glitch:hover {
+            animation: glitch-anim 0.3s infinite;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) skew(1deg) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) skew(-1deg) }
+            100% { transform: translate(0) }
         }
 
         .home p {
@@ -89,6 +246,10 @@
             letter-spacing: 3px;
             font-size: 0.9rem;
             text-transform: uppercase;
+            z-index: 10;
+            background: rgba(13,13,13,0.6);
+            padding: 5px 15px;
+            border-left: 2px solid #0000fe;
         }
 
         .bg-big-text {
@@ -96,13 +257,13 @@
             font-size: 25vw;
             font-weight: 800;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+            -webkit-text-stroke: 1px rgba(0, 0, 254, 0.1);
             pointer-events: none;
             user-select: none;
             z-index: 0;
         }
 
-        /* GRID / CARDS SECTION */
+        /* WORK SECTION */
         .work {
             padding: 6rem 2rem;
             max-width: 1200px;
@@ -120,6 +281,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            perspective: 1000px;
         }
 
         .card {
@@ -127,22 +289,29 @@
             border: 1px solid #222;
             padding: 2.5rem;
             border-radius: 8px;
-            transition: transform 0.3s, border-color 0.3s;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 280px;
+            min-height: 280px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .card:hover {
-            transform: translateY(-8px);
             border-color: #0000fe;
+            box-shadow: 0 10px 30px rgba(0, 0, 254, 0.2);
         }
 
         .card-num {
             color: #0000fe;
             font-family: monospace;
             font-size: 1.2rem;
+            transform: translateZ(30px);
+        }
+
+        .card-content {
+            transform: translateZ(40px);
         }
 
         .card h3 {
@@ -154,7 +323,20 @@
         .card p {
             color: #777;
             font-size: 0.9rem;
+            line-height: 1.5;
         }
+
+        /* HUD CORNERS ON CARDS */
+        .hud-corner {
+            position: absolute;
+            width: 10px; height: 10px;
+            border-color: rgba(0, 0, 254, 0.5);
+            border-style: solid;
+        }
+        .tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+        .tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+        .bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+        .br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
 
         /* STATS SECTION */
         .stats {
@@ -177,12 +359,18 @@
             align-items: center;
             border-bottom: 1px solid #222;
             padding-bottom: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateX(10px);
         }
 
         .stat-num {
             font-size: clamp(3rem, 7vw, 6rem);
             font-weight: 800;
             color: #0000fe;
+            text-shadow: 0 0 15px rgba(0, 0, 254, 0.4);
         }
 
         .stat-label {
@@ -203,6 +391,27 @@
 </head>
 <body>
 
+    <!-- PRELOADER SCREEN -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-title font-racing">LOADING</div>
+            <div class="loader-counter font-racing" id="loader-text">00%</div>
+            <div class="loader-bar-bg">
+                <div class="loader-bar-fill" id="loader-bar"></div>
+            </div>
+            <div class="loader-sub font-racing">six seven</div>
+        </div>
+    </div>
+
+    <div class="cyber-bg"></div>
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+
+    <canvas id="canvas-particles"></canvas>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
     <nav>
         <div class="logo font-racing">36 // 67</div>
         <div class="nav-links">
@@ -214,18 +423,34 @@
 
     <section id="home" class="home">
         <div class="bg-big-text font-racing">LN04</div>
-        <h1 class="font-racing">THAI <br> <span class="neon-text">QUOC BAO</span></h1>
+        <h1 class="font-racing glitch">THAI <br> <span class="neon-text">QUOC BAO</span></h1>
         <p>a kid with big dreams</p>
     </section>
 
     <section id="work" class="work">
         <h2 class="section-title font-racing">SELECTED WORKS</h2>
         <div class="grid-container">
-            <div class="card">
+            <!-- CARD 01 -->
+            <div class="card" data-tilt>
+                <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+                <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+                
                 <span class="card-num">// 01</span>
-                <div>
+                <div class="card-content">
                     <h3 class="font-racing">COMING SOON</h3>
                     <p>Projects will be added soon! Stay tuned!</p>
+                </div>
+            </div>
+
+            <!-- CARD 02 -->
+            <div class="card" data-tilt>
+                <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+                <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+
+                <span class="card-num">// 02</span>
+                <div class="card-content">
+                    <h3 class="font-racing">SOME SILLY LINES</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tortor libero, gravida eu scelerisque et, consectetur ut erat. Vestibulum tempor turpis nibh, et ultrices felis ornare sit amet. Nam suscipit bibendum risus, vitae ultrices lacus viverra sed. In convallis tempor nibh, et pharetra neque. Fusce dignissim ipsum euismod blandit pharetra. Proin pulvinar iaculis justo, quis molestie ex sagittis et. Aliquam eget nulla blandit, euismod velit in, condimentum felis.</p>
                 </div>
             </div>
         </div>
@@ -248,5 +473,153 @@
         <p>© 2026 Thai Quoc Bao — All Rights Reserved</p>
     </footer>
 
+    <script>
+        // 0. PRELOADER LOGIC
+        let count = 0;
+        const loaderText = document.getElementById('loader-text');
+        const loaderBar = document.getElementById('loader-bar');
+        const loader = document.getElementById('loader');
+
+        const interval = setInterval(() => {
+            count += Math.floor(Math.random() * 8) + 2;
+            if (count > 100) count = 100;
+            
+            loaderText.innerText = (count < 10 ? '0' : '') + count + '%';
+            loaderBar.style.width = count + '%';
+
+            if (count === 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loader.classList.add('loaded');
+                }, 300);
+            }
+        }, 30);
+
+        // 1. PARTICLES TRAIL SYSTEM
+        const canvas = document.getElementById('canvas-particles');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        const mouse = { x: null, y: null, speed: 0 };
+        let lastMouse = { x: 0, y: 0 };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, vx, vy, size, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.size = size;
+                this.color = color;
+                this.alpha = 1;
+                this.decay = 0.02 + Math.random() * 0.02;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+                if (this.size > 0.1) this.size -= 0.02;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = this.color;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+
+            const dx = mouse.x - lastMouse.x;
+            const dy = mouse.y - lastMouse.y;
+            mouse.speed = Math.sqrt(dx*dx + dy*dy);
+
+            if (mouse.speed > 2) {
+                for (let i = 0; i < Math.min(mouse.speed / 4, 8); i++) {
+                    const vx = (Math.random() - 0.5) * 2 - (dx * 0.1);
+                    const vy = (Math.random() - 0.5) * 2 - (dy * 0.1);
+                    const size = Math.random() * 3 + 1;
+                    const color = Math.random() > 0.3 ? '#0000fe' : '#ffffff';
+                    particlesArray.push(new Particle(e.clientX, e.clientY, vx, vy, size, color));
+                }
+            }
+            lastMouse = { x: e.clientX, y: e.clientY };
+        });
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].alpha <= 0 || particlesArray[i].size <= 0) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // 2. DOUBLE RING NEON CURSOR
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        let dotX = 0, dotY = 0, ringX = 0, ringY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            dotX = e.clientX;
+            dotY = e.clientY;
+        });
+
+        function updateCursor() {
+            dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
+            ringX += (dotX - ringX) * 0.15;
+            ringY += (dotY - ringY) * 0.15;
+            ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        document.querySelectorAll('a, .card').forEach((target) => {
+            target.addEventListener('mouseenter', () => {
+                ring.classList.add('hovered');
+            });
+            target.addEventListener('mouseleave', () => {
+                ring.classList.remove('hovered');
+            });
+        });
+
+        // 3. 3D CARD TILT EFFECT
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card) => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((centerY - y) / centerY) * 12; 
+                const rotateY = ((x - centerX) / centerX) * 12;
+
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+        });
+    </script>
 </body>
 </html>
