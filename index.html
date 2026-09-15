@@ -474,25 +474,29 @@
     </footer>
 
     <script>
-        // 0. PRELOADER LOGIC
+        // 0. PRELOADER LOGIC (STOP AT 67%)
         let count = 0;
         const loaderText = document.getElementById('loader-text');
         const loaderBar = document.getElementById('loader-bar');
         const loader = document.getElementById('loader');
-
+        
         const interval = setInterval(() => {
-            count += Math.floor(Math.random() * 8) + 2;
-            if (count > 100) count = 100;
+            // Tăng random mỗi bước 1 - 3% cho mượt
+            count += Math.floor(Math.random() * 3) + 1;
             
-            loaderText.innerText = (count < 10 ? '0' : '') + count + '%';
-            loaderBar.style.width = count + '%';
-
-            if (count === 100) {
-                clearInterval(interval);
+            // Nếu vượt quá 67 thì gán đúng bằng 67
+            if (count >= 67) {
+                count = 67;
+                clearInterval(interval); // Dừng thanh load ở 67%
+                
+                // Đợi 0.3s cho người dùng nhìn thấy số 67% rồi ẩn loader
                 setTimeout(() => {
                     loader.classList.add('loaded');
                 }, 300);
             }
+            
+            loaderText.innerText = (count < 10 ? '0' : '') + count + '%';
+            loaderBar.style.width = count + '%';
         }, 30);
 
         // 1. PARTICLES TRAIL SYSTEM
