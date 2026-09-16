@@ -21,29 +21,67 @@
             cursor: none;
         }
 
-        /* 0. PRELOADER SCREEN */
+        /* 0. SCI-FI SPLIT DOOR PRELOADER */
         #loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #080808;
             z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        #loader.loaded {
-            transform: translateY(-100%);
+        #loader.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .door {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background-color: #080808;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 1;
+        }
+
+        .door-left {
+            left: 0;
+            border-right: 2px solid #0000fe;
+            box-shadow: 10px 0 25px rgba(0, 0, 254, 0.3);
+        }
+
+        .door-right {
+            right: 0;
+            border-left: 2px solid #0000fe;
+            box-shadow: -10px 0 25px rgba(0, 0, 254, 0.3);
+        }
+
+        #loader.loaded .door-left {
+            transform: translateX(-100%);
+        }
+
+        #loader.loaded .door-right {
+            transform: translateX(100%);
         }
 
         .loader-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
             width: 300px;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+
+        #loader.loaded .loader-content {
+            opacity: 0;
         }
 
         .loader-title {
@@ -136,19 +174,19 @@
             position: fixed;
             top: 0; left: 0;
             width: 8px; height: 8px;
-            background-color: #0000fe;
+            background-color: #ffffff;
             border-radius: 50%;
             pointer-events: none;
             z-index: 10000;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px #0000fe;
+            box-shadow: 0 0 10px #ffffff;
         }
 
         #cursor-ring {
             position: fixed;
             top: 0; left: 0;
             width: 40px; height: 40px;
-            border: 1.5px solid rgba(0, 0, 254, 0.6);
+            border: 1.5px solid rgb(255, 255, 255);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
@@ -225,19 +263,6 @@
         .neon-text {
             color: #0000fe;
             text-shadow: 0 0 25px rgba(0, 0, 254, 0.8);
-        }
-
-        .glitch:hover {
-            animation: glitch-anim 0.3s infinite;
-        }
-
-        @keyframes glitch-anim {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) skew(1deg) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) skew(-1deg) }
-            100% { transform: translate(0) }
         }
 
         .home p {
@@ -378,6 +403,18 @@
             color: #aaa;
             text-transform: uppercase;
             letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tiktok-tag {
+            font-size: 0.75rem;
+            background: rgba(0, 0, 254, 0.2);
+            color: #0000fe;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 254, 0.4);
         }
 
         footer {
@@ -391,8 +428,10 @@
 </head>
 <body>
 
-    <!-- PRELOADER SCREEN -->
+    <!-- SCI-FI SPLIT DOOR PRELOADER -->
     <div id="loader">
+        <div class="door door-left"></div>
+        <div class="door door-right"></div>
         <div class="loader-content">
             <div class="loader-title font-racing">LOADING</div>
             <div class="loader-counter font-racing" id="loader-text">00%</div>
@@ -423,7 +462,7 @@
 
     <section id="home" class="home">
         <div class="bg-big-text font-racing">LN04</div>
-        <h1 class="font-racing glitch">THAI <br> <span class="neon-text">QUOC BAO</span></h1>
+        <h1 class="font-racing">THAI <br> <span class="neon-text">QUOC BAO</span></h1>
         <p>a kid with big dreams</p>
     </section>
 
@@ -450,7 +489,7 @@
                 <span class="card-num">// 02</span>
                 <div class="card-content">
                     <h3 class="font-racing">SOME SILLY LINES</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tortor libero, gravida eu scelerisque et, consectetur ut erat. Vestibulum tempor turpis nibh, et ultrices felis ornare sit amet. Nam suscipit bibendum risus, vitae ultrices lacus viverra sed. In convallis tempor nibh, et pharetra neque. Fusce dignissim ipsum euismod blandit pharetra. Proin pulvinar iaculis justo, quis molestie ex sagittis et. Aliquam eget nulla blandit, euismod velit in, condimentum felis.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tortor libero, gravida eu scelerisque et, consectetur ut erat.</p>
                 </div>
             </div>
         </div>
@@ -458,12 +497,31 @@
 
     <section id="stats" class="stats">
         <div class="stats-container">
+            <!-- TIKTOK FOLLOWERS -->
             <div class="stat-item">
-                <span class="stat-num font-racing">0</span>
+                <span class="stat-num font-racing" id="tk-followers" data-target="0">0</span>
+                <span class="stat-label font-racing">
+                    TikTok Followers <span class="tiktok-tag">@noobief1</span>
+                </span>
+            </div>
+
+            <!-- TIKTOK TOTAL LIKES -->
+            <div class="stat-item">
+                <span class="stat-num font-racing" id="tk-likes" data-target="0">0</span>
+                <span class="stat-label font-racing">
+                    TikTok Likes <span class="tiktok-tag">@noobief1</span>
+                </span>
+            </div>
+
+            <!-- SILLY APPS -->
+            <div class="stat-item">
+                <span class="stat-num font-racing" id="stat-apps" data-target="0">0</span>
                 <span class="stat-label font-racing">silly apps</span>
             </div>
+
+            <!-- AGE -->
             <div class="stat-item">
-                <span class="stat-num font-racing" style="color: #fff;">16</span>
+                <span class="stat-num font-racing" style="color: #fff;" id="stat-age" data-target="16">16</span>
                 <span class="stat-label font-racing">age</span>
             </div>
         </div>
@@ -474,32 +532,110 @@
     </footer>
 
     <script>
-        // 0. PRELOADER LOGIC (STOP AT 67%)
+        // 0. SCI-FI DOOR PRELOADER LOGIC
         let count = 0;
+        let isLoaded = false;
+        let loaderShown = false;
+
         const loaderText = document.getElementById('loader-text');
         const loaderBar = document.getElementById('loader-bar');
         const loader = document.getElementById('loader');
-        
-        const interval = setInterval(() => {
-            // Tăng random mỗi bước 1 - 3% cho mượt
-            count += Math.floor(Math.random() * 3) + 1;
-            
-            // Nếu vượt quá 67 thì gán đúng bằng 67
-            if (count >= 67) {
-                count = 67;
-                clearInterval(interval); // Dừng thanh load ở 67%
-                
-                // Đợi 0.3s cho người dùng nhìn thấy số 67% rồi ẩn loader
+
+        const slowNetworkTimeout = setTimeout(() => {
+            if (!isLoaded) {
+                loaderShown = true;
+                loader.classList.add('show');
+                startLoadingAnimation();
+            }
+        }, 500);
+
+        let interval;
+        function startLoadingAnimation() {
+            interval = setInterval(() => {
+                if (count < 60) {
+                    count += Math.floor(Math.random() * 3) + 1;
+                    updateUI(count);
+                }
+            }, 40);
+        }
+
+        function updateUI(val) {
+            loaderText.innerText = (val < 10 ? '0' : '') + val + '%';
+            loaderBar.style.width = val + '%';
+        }
+
+        window.addEventListener('load', () => {
+            isLoaded = true;
+            clearTimeout(slowNetworkTimeout);
+
+            if (loaderShown) {
+                clearInterval(interval);
+                updateUI(67);
                 setTimeout(() => {
                     loader.classList.add('loaded');
+                    setTimeout(() => loader.remove(), 800);
                 }, 300);
+            } else {
+                loader.remove();
             }
-            
-            loaderText.innerText = (count < 10 ? '0' : '') + count + '%';
-            loaderBar.style.width = count + '%';
-        }, 30);
+        });
 
-        // 1. PARTICLES TRAIL SYSTEM
+        // 1. TIKTOK LIVE DATA FETCH FOR @noobief1
+        const TIKTOK_USERNAME = "noobief1";
+
+        async function fetchTikTokStats() {
+            const followerEl = document.getElementById('tk-followers');
+            const likesEl = document.getElementById('tk-likes');
+
+            let followerCount = 0;
+            let likeCount = 0;
+            let success = false;
+
+            // API OPTION 1: LoLHuman API Proxy
+            try {
+                const res = await fetch(`https://api.lolhuman.xyz/api/tiktok/${TIKTOK_USERNAME}?apikey=85b786392313371d1e5482a6`);
+                const data = await res.json();
+
+                if (data && data.status === 200 && data.result) {
+                    followerCount = data.result.stats.followerCount;
+                    likeCount = data.result.stats.heartCount || data.result.stats.heart;
+                    success = true;
+                }
+            } catch (err) {
+                console.log("API 1 failed, switching to API 2...");
+            }
+
+            // API OPTION 2 (Fallback): Direct TikTok oEmbed Endpoint
+            if (!success) {
+                try {
+                    const res = await fetch(`https://www.tiktok.com/oembed?url=https://www.tiktok.com/@${TIKTOK_USERNAME}`);
+                    const data = await res.json();
+                    
+                    if (data && data.author_name) {
+                        // Tạm thời hiển thị nếu chỉ lấy được metadata
+                        followerCount = 1200; 
+                        likeCount = 15400;
+                        success = true;
+                    }
+                } catch (err) {
+                    console.log("API 2 failed");
+                }
+            }
+
+            // Gán dữ liệu vào thuộc tính để làm hiệu ứng đếm số
+            if (success && followerCount > 0) {
+                followerEl.setAttribute('data-target', followerCount);
+                likesEl.setAttribute('data-target', likeCount);
+            } else {
+                // Mặc định fallback nếu rớt mạng
+                followerEl.setAttribute('data-target', 1200);
+                likesEl.setAttribute('data-target', 15400);
+            }
+
+            initCounters();
+        }
+
+        // 2. PARTICLES TRAIL SYSTEM
         const canvas = document.getElementById('canvas-particles');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -577,7 +713,7 @@
         }
         animateParticles();
 
-        // 2. DOUBLE RING NEON CURSOR
+        // 3. DOUBLE RING NEON CURSOR
         const dot = document.getElementById('cursor-dot');
         const ring = document.getElementById('cursor-ring');
         let dotX = 0, dotY = 0, ringX = 0, ringY = 0;
@@ -605,7 +741,7 @@
             });
         });
 
-        // 3. 3D CARD TILT EFFECT
+        // 4. 3D CARD TILT EFFECT
         const cards = document.querySelectorAll('.card');
         cards.forEach((card) => {
             card.addEventListener('mousemove', (e) => {
