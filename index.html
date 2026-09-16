@@ -21,6 +21,16 @@
             cursor: none;
         }
 
+        /* Hide custom cursor on touch devices */
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+            #cursor-dot, #cursor-ring {
+                display: none !important;
+            }
+        }
+
         /* 0. SCI-FI SPLIT DOOR PRELOADER */
         #loader {
             position: fixed;
@@ -201,19 +211,20 @@
             background-color: rgba(0, 0, 254, 0.15);
         }
 
-        /* NAVBAR */
+        /* NAVBAR & DROPBAR */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 50;
-            background: linear-gradient(to bottom, rgba(13,13,13,0.9), transparent);
-            backdrop-filter: blur(5px);
+            z-index: 1000;
+            background: rgba(13, 13, 13, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 254, 0.2);
         }
 
         .logo {
@@ -222,6 +233,11 @@
             letter-spacing: 2px;
             font-size: 1.2rem;
             text-shadow: 0 0 10px rgba(0, 0, 254, 0.4);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
         }
 
         .nav-links a {
@@ -239,6 +255,73 @@
             text-shadow: 0 0 8px rgba(0, 0, 254, 0.8);
         }
 
+        /* MOBILE MENU TOGGLE BUTTON */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 100%;
+            height: 2px;
+            background-color: #0000fe;
+            box-shadow: 0 0 8px #0000fe;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* MOBILE DROPBAR STYLES */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(8, 8, 8, 0.96);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2.5rem;
+                transform: translateY(-100%);
+                transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+                z-index: 999;
+                border-bottom: 2px solid #0000fe;
+            }
+
+            .nav-links.open {
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                margin-left: 0;
+                font-size: 1.5rem;
+                font-family: 'Syncopate', sans-serif;
+                letter-spacing: 3px;
+            }
+        }
+
         /* HERO SECTION */
         .home {
             height: 100vh;
@@ -252,8 +335,8 @@
         }
 
         .home h1 {
-            font-size: clamp(3rem, 10vw, 8rem);
-            line-height: 0.9;
+            font-size: clamp(2.5rem, 8vw, 8rem);
+            line-height: 0.95;
             text-transform: uppercase;
             font-weight: 800;
             position: relative;
@@ -269,7 +352,7 @@
             margin-top: 1.5rem;
             color: #888;
             letter-spacing: 3px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             z-index: 10;
             background: rgba(13,13,13,0.6);
@@ -290,13 +373,13 @@
 
         /* WORK SECTION */
         .work {
-            padding: 6rem 2rem;
+            padding: 6rem 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             margin-bottom: 3rem;
             border-left: 4px solid #0000fe;
             padding-left: 1rem;
@@ -304,7 +387,7 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             perspective: 1000px;
         }
@@ -340,14 +423,14 @@
         }
 
         .card h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-top: 1rem;
             margin-bottom: 0.5rem;
         }
 
         .card p {
             color: #777;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
         }
 
@@ -365,7 +448,7 @@
 
         /* STATS SECTION */
         .stats {
-            padding: 6rem 2rem;
+            padding: 6rem 1.5rem;
             background: #080808;
             border-top: 1px solid #1a1a1a;
         }
@@ -375,7 +458,7 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 3rem;
+            gap: 2.5rem;
         }
 
         .stat-item {
@@ -383,8 +466,16 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #222;
-            padding-bottom: 2rem;
+            padding-bottom: 1.5rem;
             transition: transform 0.3s;
+        }
+
+        @media (max-width: 600px) {
+            .stat-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
         }
 
         .stat-item:hover {
@@ -392,20 +483,21 @@
         }
 
         .stat-num {
-            font-size: clamp(3rem, 7vw, 6rem);
+            font-size: clamp(2.8rem, 7vw, 6rem);
             font-weight: 800;
             color: #0000fe;
             text-shadow: 0 0 15px rgba(0, 0, 254, 0.4);
         }
 
         .stat-label {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #aaa;
             text-transform: uppercase;
             letter-spacing: 2px;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .tiktok-tag {
@@ -419,7 +511,7 @@
 
         footer {
             text-align: center;
-            padding: 3rem;
+            padding: 3rem 1rem;
             color: #444;
             font-size: 0.8rem;
             border-top: 1px solid #111;
@@ -453,7 +545,16 @@
 
     <nav>
         <div class="logo font-racing">36 // 67</div>
-        <div class="nav-links">
+        
+        <!-- MOBILE HAMBURGER BUTTON -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- NAV LINKS / DROPBAR -->
+        <div class="nav-links" id="nav-links">
             <a href="#home">HOME</a>
             <a href="#work">WORK</a>
             <a href="#stats">STATS</a>
@@ -507,7 +608,6 @@
 
             <!-- TIKTOK TOTAL LIKES -->
             <div class="stat-item">
-                <!-- Bro thay số 1500 thành tổng tym TikTok thật nếu cần nha -->
                 <span class="stat-num font-racing" id="tk-likes" data-target="1500">0</span>
                 <span class="stat-label font-racing">
                     TikTok Likes <span class="tiktok-tag">@noobief1</span>
@@ -533,7 +633,25 @@
     </footer>
 
     <script>
-        // 0. SCI-FI DOOR PRELOADER LOGIC
+        // 0. MOBILE DROPBAR TOGGLE LOGIC
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const navItems = navLinks.querySelectorAll('a');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+
+        // Close dropbar when clicking any nav item
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // 1. SCI-FI DOOR PRELOADER LOGIC
         let count = 0;
         let isLoaded = false;
         let loaderShown = false;
@@ -581,7 +699,7 @@
             }
         });
 
-        // 1. COUNTER ANIMATION FROM DATA-TARGET
+        // 2. COUNTER ANIMATION FROM DATA-TARGET
         function initCounters() {
             const statNumbers = document.querySelectorAll('.stat-num');
             
@@ -612,7 +730,7 @@
 
         window.addEventListener('DOMContentLoaded', initCounters);
 
-        // 2. PARTICLES TRAIL SYSTEM
+        // 3. PARTICLES TRAIL SYSTEM
         const canvas = document.getElementById('canvas-particles');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -690,7 +808,7 @@
         }
         animateParticles();
 
-        // 3. DOUBLE RING NEON CURSOR
+        // 4. DOUBLE RING NEON CURSOR
         const dot = document.getElementById('cursor-dot');
         const ring = document.getElementById('cursor-ring');
         let dotX = 0, dotY = 0, ringX = 0, ringY = 0;
@@ -701,10 +819,12 @@
         });
 
         function updateCursor() {
-            dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
-            ringX += (dotX - ringX) * 0.15;
-            ringY += (dotY - ringY) * 0.15;
-            ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+            if (dot && ring) {
+                dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
+                ringX += (dotX - ringX) * 0.15;
+                ringY += (dotY - ringY) * 0.15;
+                ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+            }
             requestAnimationFrame(updateCursor);
         }
         updateCursor();
@@ -718,7 +838,7 @@
             });
         });
 
-        // 4. 3D CARD TILT EFFECT
+        // 5. 3D CARD TILT EFFECT
         const cards = document.querySelectorAll('.card');
         cards.forEach((card) => {
             card.addEventListener('mousemove', (e) => {
