@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>six seven</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700;800&family=Space+Grotesk:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Syncopate:wght@700;800&family=Space+Grotesk:wght@400;600&display=swap');
 
         * {
             margin: 0;
@@ -21,504 +21,273 @@
             cursor: none;
         }
 
-        /* Hide custom cursor on touch devices */
         @media (max-width: 768px) {
-            body {
-                cursor: auto;
-            }
-            #cursor-dot, #cursor-ring {
-                display: none !important;
-            }
+            body { cursor: auto; }
+            #cursor-dot, #cursor-ring { display: none !important; }
         }
 
         /* 0. SCI-FI SPLIT DOOR PRELOADER */
         #loader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: 99999;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        #loader.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        #loader.show { opacity: 1; pointer-events: auto; }
 
         .door {
-            position: absolute;
-            top: 0;
-            width: 50%;
-            height: 100%;
+            position: absolute; top: 0; width: 50%; height: 100%;
             background-color: #080808;
             transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
             z-index: 1;
         }
 
-        .door-left {
-            left: 0;
-            border-right: 2px solid #0000fe;
-            box-shadow: 10px 0 25px rgba(0, 0, 254, 0.3);
-        }
+        .door-left { left: 0; border-right: 2px solid #0000fe; box-shadow: 10px 0 25px rgba(0, 0, 254, 0.3); }
+        .door-right { right: 0; border-left: 2px solid #0000fe; box-shadow: -10px 0 25px rgba(0, 0, 254, 0.3); }
 
-        .door-right {
-            right: 0;
-            border-left: 2px solid #0000fe;
-            box-shadow: -10px 0 25px rgba(0, 0, 254, 0.3);
-        }
-
-        #loader.loaded .door-left {
-            transform: translateX(-100%);
-        }
-
-        #loader.loaded .door-right {
-            transform: translateX(100%);
-        }
+        #loader.loaded .door-left { transform: translateX(-100%); }
+        #loader.loaded .door-right { transform: translateX(100%); }
 
         .loader-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            text-align: center;
-            width: 300px;
-            z-index: 2;
+            text-align: center; width: 300px; z-index: 2;
             transition: opacity 0.3s ease;
         }
 
-        #loader.loaded .loader-content {
-            opacity: 0;
+        #loader.loaded .loader-content { opacity: 0; }
+
+        .loader-title { font-size: 1.2rem; letter-spacing: 4px; color: #ffffff; margin-bottom: 1.5rem; }
+        .loader-counter { font-size: 4rem; font-weight: 800; color: #0000fe; text-shadow: 0 0 20px rgba(0, 0, 254, 0.6); margin-bottom: 1rem; }
+        .loader-bar-bg { width: 100%; height: 3px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+        .loader-bar-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background-color: #0000fe; box-shadow: 0 0 10px #0000fe; transition: width 0.1s ease-out; }
+        .loader-sub { font-size: 0.7rem; color: #555; letter-spacing: 2px; margin-top: 1rem; text-transform: uppercase; }
+
+        .font-racing { font-family: 'Syncopate', sans-serif; }
+
+        /* FULLSOURCE OVERLAY WHEN F12 / DEVTOOLS DETECTED */
+        #f12-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(5, 5, 8, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 999999;
+            display: none;
+            flex-direction: column;
+            padding: 2rem;
+            color: #00ff66;
+            font-family: 'Fira Code', monospace;
+            box-sizing: border-box;
+            border: 2px solid #0000fe;
         }
 
-        .loader-title {
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-        }
+        #f12-overlay.active { display: flex; }
 
-        .loader-counter {
-            font-size: 4rem;
-            font-weight: 800;
-            color: #0000fe;
-            text-shadow: 0 0 20px rgba(0, 0, 254, 0.6);
+        .f12-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 254, 0.5);
+            padding-bottom: 1rem;
             margin-bottom: 1rem;
         }
 
-        .loader-bar-bg {
-            width: 100%;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loader-bar-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background-color: #0000fe;
-            box-shadow: 0 0 10px #0000fe;
-            transition: width 0.1s ease-out;
-        }
-
-        .loader-sub {
-            font-size: 0.7rem;
-            color: #555;
+        .f12-title {
+            color: #0000fe;
+            font-weight: 800;
             letter-spacing: 2px;
-            margin-top: 1rem;
-            text-transform: uppercase;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(0,0,254,0.8);
         }
 
-        .font-racing {
-            font-family: 'Syncopate', sans-serif;
+        .f12-close-btn {
+            background: rgba(0, 0, 254, 0.2);
+            border: 1px solid #0000fe;
+            color: #fff;
+            padding: 6px 16px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .f12-close-btn:hover {
+            background: #0000fe;
+            box-shadow: 0 0 12px #0000fe;
+        }
+
+        .f12-code-container {
+            flex: 1;
+            overflow-y: auto;
+            background: #050505;
+            padding: 1.5rem;
+            border: 1px solid #111;
+            border-radius: 4px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .f12-code-container pre {
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #00f0ff;
         }
 
         /* BACKGROUND EFFECTS */
         .cyber-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% 50%, rgba(0, 0, 254, 0.08) 0%, transparent 80%);
             z-index: -3;
         }
 
         .cyber-grid {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 linear-gradient(rgba(0, 0, 254, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 254, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
-            z-index: -2;
-            pointer-events: none;
+            z-index: -2; pointer-events: none;
         }
 
         .scanlines {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(
-                rgba(18, 16, 16, 0) 50%, 
-                rgba(0, 0, 0, 0.25) 50%
-            );
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
             background-size: 100% 4px;
-            z-index: 999;
-            pointer-events: none;
-            opacity: 0.3;
+            z-index: 999; pointer-events: none; opacity: 0.3;
         }
 
         #canvas-particles {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
         }
 
         /* CUSTOM CURSOR */
         #cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 8px; height: 8px;
-            background-color: #0000fe;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px #0000fe;
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background-color: #0000fe; border-radius: 50%;
+            pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%); box-shadow: 0 0 10px #0000fe;
         }
 
         #cursor-ring {
-            position: fixed;
-            top: 0; left: 0;
-            width: 40px; height: 40px;
-            border: 1.5px solid rgba(0, 0, 254, 0.6);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1.5px solid rgba(0, 0, 254, 0.6); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
             transform: translate(-50%, -50%);
             transition: border-color 0.3s, background-color 0.3s, width 0.2s, height 0.2s;
         }
 
         #cursor-ring.hovered {
-            width: 60px;
-            height: 60px;
-            border-color: #ffffff;
-            background-color: rgba(0, 0, 254, 0.15);
+            width: 60px; height: 60px;
+            border-color: #ffffff; background-color: rgba(0, 0, 254, 0.15);
         }
 
         /* NAVBAR & DROPBAR */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            position: fixed; top: 0; left: 0; width: 100%;
             padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
             background: rgba(13, 13, 13, 0.85);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 0, 254, 0.2);
         }
 
-        .logo {
-            color: #0000fe;
-            font-weight: 800;
-            letter-spacing: 2px;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(0, 0, 254, 0.4);
-        }
+        .logo { color: #0000fe; font-weight: 800; letter-spacing: 2px; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 0, 254, 0.4); }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: #ccc; text-decoration: none; margin-left: 2rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; transition: color 0.3s; }
+        .nav-links a:hover { color: #0000fe; text-shadow: 0 0 8px rgba(0, 0, 254, 0.8); }
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #ccc;
-            text-decoration: none;
-            margin-left: 2rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #0000fe;
-            text-shadow: 0 0 8px rgba(0, 0, 254, 0.8);
-        }
-
-        /* MOBILE MENU TOGGLE BUTTON */
         .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 28px;
-            height: 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 1001;
+            display: none; flex-direction: column; justify-content: space-between;
+            width: 28px; height: 20px; background: transparent; border: none; cursor: pointer; z-index: 1001;
         }
+        .menu-toggle span { width: 100%; height: 2px; background-color: #0000fe; box-shadow: 0 0 8px #0000fe; transition: all 0.3s ease; }
+        .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-        .menu-toggle span {
-            width: 100%;
-            height: 2px;
-            background-color: #0000fe;
-            box-shadow: 0 0 8px #0000fe;
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
-        }
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .menu-toggle.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
-        }
-
-        /* MOBILE DROPBAR STYLES */
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-
+            .menu-toggle { display: flex; }
             .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: rgba(8, 8, 8, 0.96);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2.5rem;
-                transform: translateY(-100%);
-                transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-                z-index: 999;
-                border-bottom: 2px solid #0000fe;
+                position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                background: rgba(8, 8, 8, 0.96); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem;
+                transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+                z-index: 999; border-bottom: 2px solid #0000fe;
             }
-
-            .nav-links.open {
-                transform: translateY(0);
-            }
-
-            .nav-links a {
-                margin-left: 0;
-                font-size: 1.5rem;
-                font-family: 'Syncopate', sans-serif;
-                letter-spacing: 3px;
-            }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links a { margin-left: 0; font-size: 1.5rem; font-family: 'Syncopate', sans-serif; letter-spacing: 3px; }
         }
 
         /* HERO SECTION */
         .home {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-            padding: 0 1rem;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            position: relative; text-align: center; padding: 0 1rem;
         }
 
-        .home h1 {
-            font-size: clamp(2.5rem, 8vw, 8rem);
-            line-height: 0.95;
-            text-transform: uppercase;
-            font-weight: 800;
-            position: relative;
-            z-index: 10;
-        }
-
-        .neon-text {
-            color: #0000fe;
-            text-shadow: 0 0 25px rgba(0, 0, 254, 0.8);
-        }
-
-        .home p {
-            margin-top: 1.5rem;
-            color: #888;
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            z-index: 10;
-            background: rgba(13,13,13,0.6);
-            padding: 5px 15px;
-            border-left: 2px solid #0000fe;
-        }
-
-        .bg-big-text {
-            position: absolute;
-            font-size: 25vw;
-            font-weight: 800;
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(0, 0, 254, 0.1);
-            pointer-events: none;
-            user-select: none;
-            z-index: 0;
-        }
+        .home h1 { font-size: clamp(2.5rem, 8vw, 8rem); line-height: 0.95; text-transform: uppercase; font-weight: 800; position: relative; z-index: 10; }
+        .neon-text { color: #0000fe; text-shadow: 0 0 25px rgba(0, 0, 254, 0.8); }
+        .home p { margin-top: 1.5rem; color: #888; letter-spacing: 3px; font-size: 0.85rem; text-transform: uppercase; z-index: 10; background: rgba(13,13,13,0.6); padding: 5px 15px; border-left: 2px solid #0000fe; }
+        .bg-big-text { position: absolute; font-size: 25vw; font-weight: 800; color: transparent; -webkit-text-stroke: 1px rgba(0, 0, 254, 0.1); pointer-events: none; user-select: none; z-index: 0; }
 
         /* WORK SECTION */
-        .work {
-            padding: 6rem 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 3rem;
-            border-left: 4px solid #0000fe;
-            padding-left: 1rem;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            perspective: 1000px;
-        }
+        .work { padding: 6rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 3rem; border-left: 4px solid #0000fe; padding-left: 1rem; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; perspective: 1000px; }
 
         .card {
-            background: #141414;
-            border: 1px solid #222;
-            padding: 2.5rem;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 280px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #141414; border: 1px solid #222; padding: 2.5rem; border-radius: 8px;
+            display: flex; flex-direction: column; justify-content: space-between; min-height: 280px;
+            position: relative; transform-style: preserve-3d; transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        .card:hover {
-            border-color: #0000fe;
-            box-shadow: 0 10px 30px rgba(0, 0, 254, 0.2);
-        }
+        .card:hover { border-color: #0000fe; box-shadow: 0 10px 30px rgba(0, 0, 254, 0.2); }
+        .card-num { color: #0000fe; font-family: monospace; font-size: 1.2rem; transform: translateZ(30px); }
+        .card-content { transform: translateZ(40px); }
+        .card h3 { font-size: 1.3rem; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .card p { color: #777; font-size: 0.85rem; line-height: 1.5; }
 
-        .card-num {
-            color: #0000fe;
-            font-family: monospace;
-            font-size: 1.2rem;
-            transform: translateZ(30px);
-        }
-
-        .card-content {
-            transform: translateZ(40px);
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .card p {
-            color: #777;
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
-
-        /* HUD CORNERS ON CARDS */
-        .hud-corner {
-            position: absolute;
-            width: 10px; height: 10px;
-            border-color: rgba(0, 0, 254, 0.5);
-            border-style: solid;
-        }
+        .hud-corner { position: absolute; width: 10px; height: 10px; border-color: rgba(0, 0, 254, 0.5); border-style: solid; }
         .tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
         .tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
         .bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
         .br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
 
         /* STATS SECTION */
-        .stats {
-            padding: 6rem 1.5rem;
-            background: #080808;
-            border-top: 1px solid #1a1a1a;
-        }
+        .stats { padding: 6rem 1.5rem; background: #080808; border-top: 1px solid #1a1a1a; }
+        .stats-container { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.5rem; }
 
-        .stats-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-        }
+        .stat-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 1.5rem; transition: transform 0.3s; }
+        @media (max-width: 600px) { .stat-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
+        .stat-item:hover { transform: translateX(10px); }
 
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #222;
-            padding-bottom: 1.5rem;
-            transition: transform 0.3s;
-        }
+        .stat-num { font-size: clamp(2.8rem, 7vw, 6rem); font-weight: 800; color: #0000fe; text-shadow: 0 0 15px rgba(0, 0, 254, 0.4); }
+        .stat-label { font-size: 1rem; color: #aaa; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .tiktok-tag { font-size: 0.75rem; background: rgba(0, 0, 254, 0.2); color: #0000fe; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0, 0, 254, 0.4); }
 
-        @media (max-width: 600px) {
-            .stat-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-        }
-
-        .stat-item:hover {
-            transform: translateX(10px);
-        }
-
-        .stat-num {
-            font-size: clamp(2.8rem, 7vw, 6rem);
-            font-weight: 800;
-            color: #0000fe;
-            text-shadow: 0 0 15px rgba(0, 0, 254, 0.4);
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tiktok-tag {
-            font-size: 0.75rem;
-            background: rgba(0, 0, 254, 0.2);
-            color: #0000fe;
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(0, 0, 254, 0.4);
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #444;
-            font-size: 0.8rem;
-            border-top: 1px solid #111;
-        }
+        footer { text-align: center; padding: 3rem 1rem; color: #444; font-size: 0.8rem; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
+
+    <!-- F12 SOURCE CODE OVERLAY -->
+    <div id="f12-overlay">
+        <div class="f12-header">
+            <div class="f12-title font-racing">[SYSTEM OVERRIDE] // FULL SOURCE CODE DETECTED</div>
+            <button class="f12-close-btn" onclick="closeF12Overlay()">[ CLOSE TERMINAL ]</button>
+        </div>
+        <div class="f12-code-container">
+            <pre id="source-code-display">// Fetching raw source code...</pre>
+        </div>
+    </div>
 
     <!-- SCI-FI SPLIT DOOR PRELOADER -->
     <div id="loader">
@@ -545,15 +314,11 @@
 
     <nav>
         <div class="logo font-racing">36 // 67</div>
-        
-        <!-- MOBILE HAMBURGER BUTTON -->
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
-
-        <!-- NAV LINKS / DROPBAR -->
         <div class="nav-links" id="nav-links">
             <a href="#home">HOME</a>
             <a href="#work">WORK</a>
@@ -570,11 +335,9 @@
     <section id="work" class="work">
         <h2 class="section-title font-racing">SELECTED WORKS</h2>
         <div class="grid-container">
-            <!-- CARD 01 -->
             <div class="card" data-tilt>
                 <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
                 <div class="hud-corner bl"></div><div class="hud-corner br"></div>
-                
                 <span class="card-num">// 01</span>
                 <div class="card-content">
                     <h3 class="font-racing">COMING SOON</h3>
@@ -582,11 +345,9 @@
                 </div>
             </div>
 
-            <!-- CARD 02 -->
             <div class="card" data-tilt>
                 <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
                 <div class="hud-corner bl"></div><div class="hud-corner br"></div>
-
                 <span class="card-num">// 02</span>
                 <div class="card-content">
                     <h3 class="font-racing">SOME SILLY LINES</h3>
@@ -598,29 +359,21 @@
 
     <section id="stats" class="stats">
         <div class="stats-container">
-            <!-- TIKTOK FOLLOWERS -->
             <div class="stat-item">
                 <span class="stat-num font-racing" id="tk-followers" data-target="147">0</span>
-                <span class="stat-label font-racing">
-                    TikTok Followers <span class="tiktok-tag">@noobief1</span>
-                </span>
+                <span class="stat-label font-racing">TikTok Followers <span class="tiktok-tag">@noobief1</span></span>
             </div>
 
-            <!-- TIKTOK TOTAL LIKES -->
             <div class="stat-item">
                 <span class="stat-num font-racing" id="tk-likes" data-target="704">0</span>
-                <span class="stat-label font-racing">
-                    TikTok Likes <span class="tiktok-tag">@noobief1</span>
-                </span>
+                <span class="stat-label font-racing">TikTok Likes <span class="tiktok-tag">@noobief1</span></span>
             </div>
 
-            <!-- SILLY APPS -->
             <div class="stat-item">
                 <span class="stat-num font-racing" id="stat-apps" data-target="0">0</span>
                 <span class="stat-label font-racing">silly apps</span>
             </div>
 
-            <!-- AGE -->
             <div class="stat-item">
                 <span class="stat-num font-racing" style="color: #fff;" id="stat-age" data-target="16">0</span>
                 <span class="stat-label font-racing">age</span>
@@ -633,7 +386,45 @@
     </footer>
 
     <script>
-        // 0. MOBILE DROPBAR TOGGLE LOGIC
+        // 0. F12 & DEVTOOLS DETECTOR TRIGGER FULLSOURCE
+        const f12Overlay = document.getElementById('f12-overlay');
+        const sourceCodeDisplay = document.getElementById('source-code-display');
+
+        function triggerFullSource() {
+            if (!f12Overlay.classList.contains('active')) {
+                // Lấy toàn bộ mã nguồn HTML hiện tại của trang
+                sourceCodeDisplay.textContent = document.documentElement.outerHTML;
+                f12Overlay.classList.add('active');
+            }
+        }
+
+        function closeF12Overlay() {
+            f12Overlay.classList.remove('active');
+        }
+
+        // Bắt phím F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        window.addEventListener('keydown', (e) => {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) ||
+                (e.ctrlKey && (e.key === 'u' || e.key === 'U'))
+            ) {
+                e.preventDefault();
+                triggerFullSource();
+            }
+        });
+
+        // Bắt sự kiện mở DevTools bằng cách đo Kích thước Cửa sổ
+        const threshold = 160;
+        window.addEventListener('resize', () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+            if (widthThreshold || heightThreshold) {
+                triggerFullSource();
+            }
+        });
+
+        // 1. MOBILE DROPBAR TOGGLE LOGIC
         const menuToggle = document.getElementById('menu-toggle');
         const navLinks = document.getElementById('nav-links');
         const navItems = navLinks.querySelectorAll('a');
@@ -643,7 +434,6 @@
             navLinks.classList.toggle('open');
         });
 
-        // Close dropbar when clicking any nav item
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 menuToggle.classList.remove('active');
@@ -651,7 +441,7 @@
             });
         });
 
-        // 1. SCI-FI DOOR PRELOADER LOGIC
+        // 2. SCI-FI DOOR PRELOADER LOGIC
         let count = 0;
         let isLoaded = false;
         let loaderShown = false;
@@ -699,7 +489,7 @@
             }
         });
 
-        // 2. COUNTER ANIMATION FROM DATA-TARGET
+        // 3. COUNTER ANIMATION FROM DATA-TARGET
         function initCounters() {
             const statNumbers = document.querySelectorAll('.stat-num');
             
@@ -730,7 +520,7 @@
 
         window.addEventListener('DOMContentLoaded', initCounters);
 
-        // 3. PARTICLES TRAIL SYSTEM
+        // 4. PARTICLES TRAIL SYSTEM
         const canvas = document.getElementById('canvas-particles');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -746,18 +536,12 @@
 
         class Particle {
             constructor(x, y, vx, vy, size, color) {
-                this.x = x;
-                this.y = y;
-                this.vx = vx;
-                this.vy = vy;
-                this.size = size;
-                this.color = color;
-                this.alpha = 1;
+                this.x = x; this.y = y; this.vx = vx; this.vy = vy;
+                this.size = size; this.color = color; this.alpha = 1;
                 this.decay = 0.02 + Math.random() * 0.02;
             }
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
+                this.x += this.vx; this.y += this.vy;
                 this.alpha -= this.decay;
                 if (this.size > 0.1) this.size -= 0.02;
             }
@@ -775,9 +559,7 @@
         }
 
         window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-
+            mouse.x = e.clientX; mouse.y = e.clientY;
             const dx = mouse.x - lastMouse.x;
             const dy = mouse.y - lastMouse.y;
             mouse.speed = Math.sqrt(dx*dx + dy*dy);
@@ -808,14 +590,13 @@
         }
         animateParticles();
 
-        // 4. DOUBLE RING NEON CURSOR
+        // 5. DOUBLE RING NEON CURSOR
         const dot = document.getElementById('cursor-dot');
         const ring = document.getElementById('cursor-ring');
         let dotX = 0, dotY = 0, ringX = 0, ringY = 0;
 
         window.addEventListener('mousemove', (e) => {
-            dotX = e.clientX;
-            dotY = e.clientY;
+            dotX = e.clientX; dotY = e.clientY;
         });
 
         function updateCursor() {
@@ -830,15 +611,11 @@
         updateCursor();
 
         document.querySelectorAll('a, .card').forEach((target) => {
-            target.addEventListener('mouseenter', () => {
-                ring.classList.add('hovered');
-            });
-            target.addEventListener('mouseleave', () => {
-                ring.classList.remove('hovered');
-            });
+            target.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+            target.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
         });
 
-        // 5. 3D CARD TILT EFFECT
+        // 6. 3D CARD TILT EFFECT
         const cards = document.querySelectorAll('.card');
         cards.forEach((card) => {
             card.addEventListener('mousemove', (e) => {
