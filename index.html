@@ -174,19 +174,19 @@
             position: fixed;
             top: 0; left: 0;
             width: 8px; height: 8px;
-            background-color: #ffffff;
+            background-color: #0000fe;
             border-radius: 50%;
             pointer-events: none;
             z-index: 10000;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px #ffffff;
+            box-shadow: 0 0 10px #0000fe;
         }
 
         #cursor-ring {
             position: fixed;
             top: 0; left: 0;
             width: 40px; height: 40px;
-            border: 1.5px solid rgb(255, 255, 255);
+            border: 1.5px solid rgba(0, 0, 254, 0.6);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
@@ -499,7 +499,7 @@
         <div class="stats-container">
             <!-- TIKTOK FOLLOWERS -->
             <div class="stat-item">
-                <span class="stat-num font-racing" id="tk-followers" data-target="0">0</span>
+                <span class="stat-num font-racing" id="tk-followers" data-target="147">0</span>
                 <span class="stat-label font-racing">
                     TikTok Followers <span class="tiktok-tag">@noobief1</span>
                 </span>
@@ -507,7 +507,8 @@
 
             <!-- TIKTOK TOTAL LIKES -->
             <div class="stat-item">
-                <span class="stat-num font-racing" id="tk-likes" data-target="0">0</span>
+                <!-- Bro thay số 1500 thành tổng tym TikTok thật nếu cần nha -->
+                <span class="stat-num font-racing" id="tk-likes" data-target="1500">0</span>
                 <span class="stat-label font-racing">
                     TikTok Likes <span class="tiktok-tag">@noobief1</span>
                 </span>
@@ -515,13 +516,13 @@
 
             <!-- SILLY APPS -->
             <div class="stat-item">
-                <span class="stat-num font-racing" id="stat-apps" data-target="0">0</span>
+                <span class="stat-num font-racing" id="stat-apps" data-target="5">0</span>
                 <span class="stat-label font-racing">silly apps</span>
             </div>
 
             <!-- AGE -->
             <div class="stat-item">
-                <span class="stat-num font-racing" style="color: #fff;" id="stat-age" data-target="16">16</span>
+                <span class="stat-num font-racing" style="color: #fff;" id="stat-age" data-target="16">0</span>
                 <span class="stat-label font-racing">age</span>
             </div>
         </div>
@@ -580,60 +581,36 @@
             }
         });
 
-        // 1. TIKTOK LIVE DATA FETCH FOR @noobief1
-        const TIKTOK_USERNAME = "noobief1";
+        // 1. COUNTER ANIMATION FROM DATA-TARGET
+        function initCounters() {
+            const statNumbers = document.querySelectorAll('.stat-num');
+            
+            statNumbers.forEach(numEl => {
+                const target = +numEl.getAttribute('data-target');
+                if (!target) return;
 
-        async function fetchTikTokStats() {
-            const followerEl = document.getElementById('tk-followers');
-            const likesEl = document.getElementById('tk-likes');
-
-            let followerCount = 0;
-            let likeCount = 0;
-            let success = false;
-
-            // API OPTION 1: LoLHuman API Proxy
-            try {
-                const res = await fetch(`https://api.lolhuman.xyz/api/tiktok/${TIKTOK_USERNAME}?apikey=85b786392313371d1e5482a6`);
-                const data = await res.json();
-
-                if (data && data.status === 200 && data.result) {
-                    followerCount = data.result.stats.followerCount;
-                    likeCount = data.result.stats.heartCount || data.result.stats.heart;
-                    success = true;
-                }
-            } catch (err) {
-                console.log("API 1 failed, switching to API 2...");
-            }
-
-            // API OPTION 2 (Fallback): Direct TikTok oEmbed Endpoint
-            if (!success) {
-                try {
-                    const res = await fetch(`https://www.tiktok.com/oembed?url=https://www.tiktok.com/@${TIKTOK_USERNAME}`);
-                    const data = await res.json();
-                    
-                    if (data && data.author_name) {
-                        // Tạm thời hiển thị nếu chỉ lấy được metadata
-                        followerCount = 1200; 
-                        likeCount = 15400;
-                        success = true;
+                let current = 0;
+                const increment = Math.max(1, Math.ceil(target / 40));
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        numEl.innerText = formatNumber(target);
+                        clearInterval(timer);
+                    } else {
+                        numEl.innerText = formatNumber(current);
                     }
-                } catch (err) {
-                    console.log("API 2 failed");
-                }
-            }
-
-            // Gán dữ liệu vào thuộc tính để làm hiệu ứng đếm số
-            if (success && followerCount > 0) {
-                followerEl.setAttribute('data-target', followerCount);
-                likesEl.setAttribute('data-target', likeCount);
-            } else {
-                // Mặc định fallback nếu rớt mạng
-                followerEl.setAttribute('data-target', 1200);
-                likesEl.setAttribute('data-target', 15400);
-            }
-
-            initCounters();
+                }, 30);
+            });
         }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num;
+        }
+
+        window.addEventListener('DOMContentLoaded', initCounters);
 
         // 2. PARTICLES TRAIL SYSTEM
         const canvas = document.getElementById('canvas-particles');
