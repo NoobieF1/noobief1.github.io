@@ -4,20 +4,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* CHỐNG HIGHLIGHT / CHỌN VĂN BẢN (ALL BROWSERS) */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none;    /* Firefox */
-    -ms-user-select: none;     /* IE / Edge */
-    user-select: none;         /* Standard */
 }
 
-/* Giữ ngoại lệ cho cửa sổ F12 Overlay để vẫn thao tác được nếu cần */
-#f12-overlay, 
-#f12-overlay * {
-    -webkit-user-select: text !important;
-    -moz-user-select: text !important;
-    -ms-user-select: text !important;
-    user-select: text !important;
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #0d0d0d;
+    color: #ffffff;
+    overflow-x: hidden;
+    cursor: none;
 }
 
 /* TỰ ĐỘNG HIỆN CHUỘT KHI OVERLAY DEVTOOLS BẬT */
