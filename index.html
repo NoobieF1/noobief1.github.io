@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>six seven</title>
+    <!-- Font Awesome CDN cho Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,16 +46,26 @@
 
     <nav>
         <div class="logo font-racing">36 // 67</div>
+        
+        <div class="nav-links" id="nav-links">
+            <a href="#home"><i class="fa-solid fa-house"></i> HOME</a>
+            <a href="#work"><i class="fa-solid fa-code"></i> WORK</a>
+            <a href="#stats"><i class="fa-solid fa-chart-simple"></i> STATS</a>
+
+            <!-- Nút Toggle Chế độ Sáng/Tối hỗ trợ trượt Icon -->
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                <div class="theme-btn-content">
+                    <i id="theme-icon" class="fa-solid fa-sun"></i>
+                    <span id="theme-btn-text">LIGHT</span>
+                </div>
+            </button>
+        </div>
+
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
-        <div class="nav-links" id="nav-links">
-            <a href="#home">HOME</a>
-            <a href="#work">WORK</a>
-            <a href="#stats">STATS</a>
-        </div>
     </nav>
 
     <section id="home" class="home">
@@ -95,7 +107,7 @@
             </div>
 
             <div class="stat-item reveal">
-                <span class="stat-num font-racing" style="color: #fff;" id="stat-age" data-target="16">0</span>
+                <span class="stat-num font-racing" style="color: var(--text-main);" id="stat-age" data-target="16">0</span>
                 <span class="stat-label font-racing">age</span>
             </div>
         </div>
