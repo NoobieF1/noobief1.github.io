@@ -35,6 +35,28 @@ window.addEventListener('resize', () => {
     }
 });
 
+// LOGIC CHUYỂN CHẾ ĐỘ SÁNG / TỐI VỚI HIỆU ỨNG TRƯỢT XOAY
+const themeToggleBtn = document.getElementById('theme-toggle');
+const themeBtnText = document.getElementById('theme-btn-text');
+const themeIcon = document.getElementById('theme-icon');
+
+themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    
+    // Kích hoạt class animation
+    themeIcon.classList.remove('slide-anim');
+    void themeIcon.offsetWidth; // Trigger reflow để reset animation
+    themeIcon.classList.add('slide-anim');
+
+    if (document.body.classList.contains('light-mode')) {
+        themeBtnText.textContent = 'DARK';
+        themeIcon.className = 'fa-solid fa-moon slide-anim';
+    } else {
+        themeBtnText.textContent = 'LIGHT';
+        themeIcon.className = 'fa-solid fa-sun slide-anim';
+    }
+});
+
 // 1. MOBILE DROPBAR TOGGLE LOGIC
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
@@ -143,7 +165,6 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
 
-            // Nếu cuộn tới section stats thì mới bắt đầu chạy hiệu ứng đếm số
             if (entry.target.closest('#stats') && !countersAnimated) {
                 countersAnimated = true;
                 initCounters();
@@ -203,7 +224,11 @@ window.addEventListener('mousemove', (e) => {
             const vx = (Math.random() - 0.5) * 2 - (dx * 0.1);
             const vy = (Math.random() - 0.5) * 2 - (dy * 0.1);
             const size = Math.random() * 3 + 1;
-            const color = Math.random() > 0.3 ? '#0000fe' : '#ffffff';
+            
+            const isLight = document.body.classList.contains('light-mode');
+            const primaryColor = isLight ? '#000000' : '#ffffff';
+            const color = Math.random() > 0.3 ? '#0000fe' : primaryColor;
+
             particlesArray.push(new Particle(e.clientX, e.clientY, vx, vy, size, color));
         }
     }
@@ -244,7 +269,7 @@ function updateCursor() {
 }
 updateCursor();
 
-document.querySelectorAll('a, .card').forEach((target) => {
+document.querySelectorAll('a, .card, button').forEach((target) => {
     target.addEventListener('mouseenter', () => ring.classList.add('hovered'));
     target.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
 });
