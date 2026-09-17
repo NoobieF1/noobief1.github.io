@@ -268,36 +268,9 @@ cards.forEach((card) => {
         card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
     });
 });
-// ==========================================
-// ANTI-COPY / ANTI-HIGHLIGHT / ANTI-DEVTOOLS
-// ==========================================
-
-// 1. Chặn Click chuột phải (Context Menu)
-document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-});
-
-// 2. Chặn các phím tắt Copy, Paste, Cut, Select All, Save, Print
-document.addEventListener('keydown', (e) => {
-    const isCtrlOrCmd = e.ctrlKey || e.metaKey; // Dành cho cả Windows & macOS
-
-    if (isCtrlOrCmd) {
-        const key = e.key.toLowerCase();
-        
-        // Chặn Ctrl + A, C, V, X, S, P, U
-        if (['a', 'c', 'v', 'x', 's', 'p', 'u'].includes(key)) {
-            e.preventDefault();
-            return false;
-        }
+// Chặn hoàn toàn hành vi bôi đen/chọn chữ
+document.addEventListener('selectstart', (e) => {
+    if (!e.target.closest('#f12-overlay')) {
+        e.preventDefault();
     }
-});
-
-// 3. Chặn sự kiện Copy, Cut, Paste trực tiếp
-['copy', 'cut', 'paste', 'dragstart', 'drop'].forEach(eventType => {
-    document.addEventListener(eventType, (e) => {
-        // Nếu không phải trong bảng F12 overlay thì chặn toàn bộ
-        if (!e.target.closest('#f12-overlay')) {
-            e.preventDefault();
-        }
-    });
 });
