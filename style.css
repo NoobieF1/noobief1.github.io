@@ -297,3 +297,13 @@ footer { text-align: center; padding: 3rem 1rem; color: #444; font-size: 0.8rem;
     opacity: 1;
     transform: translateY(0);
 }
+/* Tắt màu highlight khi cố tình bôi đen */
+::-moz-selection {
+    background: transparent;
+    color: inherit;
+}
+
+::selection {
+    background: transparent;
+    color: inherit;
+}
