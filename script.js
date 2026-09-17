@@ -268,9 +268,3 @@ cards.forEach((card) => {
         card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
     });
 });
-// Chặn hoàn toàn hành vi bôi đen/chọn chữ
-document.addEventListener('selectstart', (e) => {
-    if (!e.target.closest('#f12-overlay')) {
-        e.preventDefault();
-    }
-});
