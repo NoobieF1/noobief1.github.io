@@ -35,7 +35,7 @@ window.addEventListener('resize', () => {
     }
 });
 
-// LOGIC CHUYỂN CHẾ ĐỘ SÁNG / TỐI VỚI HIỆU ỨNG TRƯỢT XOAY
+// LOGIC CHUYỂN CHẾ ĐỘ SÁNG / TỐI KÈM HIỆU ỨNG TRƯỢT TỪ TRÁI SANG PHẢI
 const themeToggleBtn = document.getElementById('theme-toggle');
 const themeBtnText = document.getElementById('theme-btn-text');
 const themeIcon = document.getElementById('theme-icon');
@@ -43,17 +43,17 @@ const themeIcon = document.getElementById('theme-icon');
 themeToggleBtn.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     
-    // Kích hoạt class animation
-    themeIcon.classList.remove('slide-anim');
-    void themeIcon.offsetWidth; // Trigger reflow để reset animation
-    themeIcon.classList.add('slide-anim');
+    // Trigger hiệu ứng trượt từ trái sang phải
+    themeToggleBtn.classList.remove('slide-active');
+    void themeToggleBtn.offsetWidth; // Reset reflow
+    themeToggleBtn.classList.add('slide-active');
 
     if (document.body.classList.contains('light-mode')) {
         themeBtnText.textContent = 'DARK';
-        themeIcon.className = 'fa-solid fa-moon slide-anim';
+        themeIcon.className = 'fa-solid fa-moon';
     } else {
         themeBtnText.textContent = 'LIGHT';
-        themeIcon.className = 'fa-solid fa-sun slide-anim';
+        themeIcon.className = 'fa-solid fa-sun';
     }
 });
 
