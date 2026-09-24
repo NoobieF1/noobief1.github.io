@@ -305,13 +305,53 @@ body.light-mode .theme-btn-content {
 /* NAVBAR & DROPBAR */
 nav {
     position: fixed; top: 0; left: 0; width: 100%;
-    padding: 1.5rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.8rem 2rem 1.2rem 2rem;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    flex-wrap: wrap;
     z-index: 1000;
     background: var(--nav-bg);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 254, 0.2);
     transition: background-color 0.4s ease;
+}
+
+/* WORK IN PROGRESS BANNER STYLE IN TOPBAR */
+.wip-banner {
+    width: 100%;
+    margin-bottom: 0.6rem;
+    padding: 3px 0;
+    background: rgba(0, 0, 254, 0.12);
+    border-bottom: 1px dashed rgba(0, 0, 254, 0.4);
+    border-top: 1px dashed rgba(0, 0, 254, 0.4);
+    text-align: center;
+}
+
+.wip-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: #0000fe;
+    animation: wipPulse 2s infinite alternate;
+}
+
+.wip-content i {
+    font-size: 0.75rem;
+}
+
+@keyframes wipPulse {
+    0% {
+        opacity: 0.6;
+        text-shadow: 0 0 2px rgba(0, 0, 254, 0.4);
+    }
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 8px rgba(0, 0, 254, 0.8);
+    }
 }
 
 .logo { color: #0000fe; font-weight: 800; letter-spacing: 2px; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 0, 254, 0.4); }
@@ -428,13 +468,8 @@ footer { text-align: center; padding: 3rem 1rem; color: var(--text-sub); font-si
     opacity: 1;
     transform: translateY(0);
 }
-/* Styling cho phần chân card và nút GitHub */
-.card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
+/* Styling cho phần chân card và nút GitHub */
 .card-footer {
     margin-top: 1.5rem;
     transform: translateZ(35px);
